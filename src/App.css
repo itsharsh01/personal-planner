@@ -1,0 +1,404 @@
+.tracker {
+  min-height: 100vh;
+  padding: 2rem 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.tracker-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.tracker-header h1 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.35em;
+}
+
+.tracker-header p {
+  font-size: 0.95rem;
+  opacity: 0.6;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 3.5rem;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: 0 0 1.25rem;
+}
+
+/* 6 Month Plan - Big boxes */
+.tracker-window--big {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+.plan-box {
+  background: var(--box-bg);
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  min-height: 160px;
+  display: flex;
+  align-items: flex-start;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--box-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plan-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.plan-box--0 { --accent: #4a9b7a; }
+.plan-box--1 { --accent: #7b68c4; }
+.plan-box--2 { --accent: #d4a853; }
+.plan-box--3 { --accent: #e07a7a; }
+.plan-box--4 { --accent: #5b9bd5; }
+
+.plan-box-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.plan-box-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark--big {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-top: 0.15rem;
+}
+
+.plan-box-content {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  min-height: 2.8em;
+  outline: none;
+}
+
+.plan-box-content:focus {
+  outline: none;
+}
+
+.plan-box-content[contenteditable]:empty::before {
+  content: 'Your 6-month goal…';
+  opacity: 0.4;
+}
+
+.plan-box-label input:checked ~ .plan-box-content {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+/* Monthly tracker window */
+.tracker-window {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+.tracker-window--months {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.tracker-box {
+  background: var(--box-bg);
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--box-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tracker-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.tracker-box--health,
+.tracker-box--feb { --accent: #4a9b7a; }
+.tracker-box--finance,
+.tracker-box--mar { --accent: #7b68c4; }
+.tracker-box--learning,
+.tracker-box--apr { --accent: #d4a853; }
+.tracker-box--wellness,
+.tracker-box--may { --accent: #e07a7a; }
+.tracker-box--goals,
+.tracker-box--jun { --accent: #5b9bd5; }
+.tracker-box--jul { --accent: #4a9b7a; }
+
+.tracker-box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.tracker-box-icon {
+  font-size: 1.25rem;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+.tracker-box h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tracker-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.tracker-item {
+  margin-bottom: 0.9rem;
+}
+
+.tracker-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.tracker-item input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent, #888);
+  border-radius: 6px;
+  background: transparent;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tracker-item input:checked + .checkmark,
+.plan-box-label input:checked + .checkmark {
+  background: var(--accent, #555);
+  border-color: var(--accent, #555);
+}
+
+.tracker-item input:checked + .checkmark::after,
+.plan-box-label input:checked + .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  box-sizing: border-box;
+}
+
+.plan-box-label input:checked + .checkmark::after {
+  left: 8px;
+  top: 4px;
+  width: 6px;
+  height: 12px;
+}
+
+.tracker-item label {
+  position: relative;
+}
+
+.tracker-item-text {
+  flex: 1;
+  transition: opacity 0.2s ease;
+}
+
+.tracker-item input:checked ~ .tracker-item-text {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+/* Calendar section - 6 months horizontal */
+.section--calendar {
+  margin-bottom: 2rem;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+.calendar-mini {
+  background: var(--box-bg);
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--box-border);
+}
+
+.calendar-mini-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.calendar-mini-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.calendar-mini-day-name {
+  font-size: 0.55rem;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.calendar-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendar-mini-cell {
+  aspect-ratio: 1;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-mini-cell--empty {
+  visibility: hidden;
+}
+
+.calendar-mini-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  padding: 1px;
+  transition: background 0.2s ease;
+}
+
+.calendar-mini-label:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.calendar-mini-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark--calendar-mini {
+  width: 10px;
+  height: 10px;
+}
+
+.calendar-mini-label input:checked ~ .checkmark--calendar-mini {
+  background: #4a9b7a;
+  border-color: #4a9b7a;
+}
+
+.calendar-mini-label input:checked + .checkmark--calendar-mini::after {
+  left: 3px;
+  top: 0;
+  width: 3px;
+  height: 5px;
+}
+
+.calendar-mini-label input:checked ~ .calendar-mini-num {
+  opacity: 0.7;
+}
+
+.calendar-mini-num {
+  font-size: 0.55rem;
+  font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+  .tracker-window--big {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tracker-window--months {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .calendar-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .tracker-window,
+  .tracker-window--big,
+  .tracker-window--months {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .calendar-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tracker {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-row {
+    grid-template-columns: 1fr;
+  }
+}
