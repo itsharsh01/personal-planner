@@ -25,6 +25,12 @@
   font-weight: 400;
 }
 
+.tracker-error {
+  font-size: 0.9rem;
+  color: #c44;
+  margin-top: 0.5rem !important;
+}
+
 /* Sections */
 .section {
   margin-bottom: 3.5rem;

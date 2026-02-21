@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import * as api from './api'
 
 const DEFAULT_6_MONTH_GOALS = [
   '60 KG',
@@ -37,32 +38,81 @@ const MONTH_BOXES = [
 const YEAR = 2026
 const DAY_NAMES = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
+function applyApiData(data, setters) {
+  if (data.sixMonthGoals?.length) {
+    const goals = [...data.sixMonthGoals]
+    while (goals.length < 5) goals.push('')
+    setters.setSixMonthGoals(goals.slice(0, 5))
+  }
+  if (data.sixMonthChecks) setters.setSixMonthChecks(data.sixMonthChecks)
+  if (data.monthlyChecks) setters.setMonthlyChecks(data.monthlyChecks)
+  if (data.dateChecks) setters.setDateChecks(data.dateChecks)
+}
+
 function App() {
   const [sixMonthGoals, setSixMonthGoals] = useState(DEFAULT_6_MONTH_GOALS)
   const [sixMonthChecks, setSixMonthChecks] = useState({})
   const [monthlyChecks, setMonthlyChecks] = useState({})
   const [dateChecks, setDateChecks] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  const updateSixMonthGoal = (index, text) => {
-    setSixMonthGoals((prev) => {
-      const next = [...prev]
-      next[index] = text
-      return next
-    })
+  const setters = {
+    setSixMonthGoals,
+    setSixMonthChecks,
+    setMonthlyChecks,
+    setDateChecks,
   }
 
-  const toggleMonthly = (monthId, itemIndex) => {
-    setMonthlyChecks((prev) => {
-      const month = prev[monthId] || {}
-      return { ...prev, [monthId]: { ...month, [itemIndex]: !month[itemIndex] } }
-    })
+  useEffect(() => {
+    api
+      .getData()
+      .then((data) => applyApiData(data, setters))
+      .catch((err) => setError(err.message || 'Failed to load data'))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const updateSixMonthGoal = async (index, text) => {
+    try {
+      setError(null)
+      const data = await api.updateGoalText(index, text)
+      applyApiData(data, setters)
+    } catch (err) {
+      setError(err.message || 'Failed to update goal')
+    }
   }
 
-  const toggleDateCheck = (monthId, day) => {
-    setDateChecks((prev) => {
-      const month = prev[monthId] || {}
-      return { ...prev, [monthId]: { ...month, [day]: !month[day] } }
-    })
+  const toggleSixMonthCheck = async (index) => {
+    const next = !sixMonthChecks[index]
+    try {
+      setError(null)
+      const data = await api.updateGoalCheck(index, next)
+      applyApiData(data, setters)
+    } catch (err) {
+      setError(err.message || 'Failed to update checkbox')
+    }
+  }
+
+  const toggleMonthly = async (monthId, itemIndex) => {
+    const next = !(monthlyChecks[monthId]?.[itemIndex])
+    try {
+      setError(null)
+      const data = await api.updateMonthlyCheck(monthId, itemIndex, next)
+      applyApiData(data, setters)
+    } catch (err) {
+      setError(err.message || 'Failed to update monthly checkbox')
+    }
+  }
+
+  const toggleDateCheck = async (monthId, day) => {
+    const next = !(dateChecks[monthId]?.[day])
+    try {
+      setError(null)
+      const data = await api.updateDailyCheck(monthId, day, next)
+      applyApiData(data, setters)
+    } catch (err) {
+      setError(err.message || 'Failed to update daily checkbox')
+    }
   }
 
   const getCalendarDays = (monthId) => {
@@ -78,11 +128,23 @@ function App() {
     return cells
   }
 
+  if (loading) {
+    return (
+      <div className="tracker">
+        <header className="tracker-header">
+          <h1>Personal Tracker</h1>
+          <p className="tracker-subtitle">Loading…</p>
+        </header>
+      </div>
+    )
+  }
+
   return (
     <div className="tracker">
       <header className="tracker-header">
         <h1>Personal Tracker</h1>
         <p className="tracker-subtitle">6 month plan · February – July</p>
+        {error && <p className="tracker-error">{error}</p>}
       </header>
 
       <section className="section section--6month">
@@ -94,7 +156,7 @@ function App() {
                 <input
                   type="checkbox"
                   checked={!!sixMonthChecks[i]}
-                  onChange={() => setSixMonthChecks((p) => ({ ...p, [i]: !p[i] }))}
+                  onChange={() => toggleSixMonthCheck(i)}
                 />
                 <span className="checkmark checkmark--big" />
                 <span
