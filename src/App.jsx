@@ -29,7 +29,19 @@ const MONTH_ITEMS_BY_MONTH = {
     'Codechef challenge',
     'Portfolio',
   ],
-  apr: ['', '', '', '', '', ''],
+  apr: [
+    // 2-week intensive
+    'Essential Maths — notes + implementation',
+    'ML Algorithms — notes + Colab notebooks',
+    'Revision pattern for maths & algorithms',
+    // carry forward whole month
+    'April learning theory',
+    '5 EDA projects',
+    'Daily NumPy & Pandas (15 + 15 min)',
+    'Daily DSA',
+    'All assignments on time',
+    'Daily Codechef — solve + contest doc',
+  ],
   may: ['', '', '', '', '', ''],
   jun: ['', '', '', '', '', ''],
   jul: ['', '', '', '', '', ''],
