@@ -23,11 +23,12 @@ const MONTH_ITEMS_BY_MONTH = {
   mar: [
     'Daily DSA',
     '10 pointer for agency',
-    'Weekly LinkedIn post and Naukri update',
-    'Math, DA one shot',
-    '100 days ML',
+    'Phase 4 Gen AI + Notes',
+    '2 Blogs',
+    'Sql 30, Pandas 30, Numpy 100',
     'Codechef challenge',
-    'Portfolio',
+    'Khan Academy Playlist',
+    'Hacker Rank Practice'
   ],
   apr: [
     // 2-week intensive
